@@ -39,11 +39,9 @@ const services = [
   },
 ];
 
-function ServiceCard({ service, index, isLastRow, isLastCol }: {
+function ServiceCard({ service, index }: {
   service: typeof services[0];
   index: number;
-  isLastRow: boolean;
-  isLastCol: boolean;
 }) {
   const [hovered, setHovered] = useState(false);
   const Icon = service.icon;
@@ -55,11 +53,9 @@ function ServiceCard({ service, index, isLastRow, isLastCol }: {
   return (
     <motion.div
       key={service.title}
-      className="flex flex-col relative cursor-pointer"
+      className="service-card flex flex-col relative cursor-pointer"
       style={{
-        padding: "48px 40px",
-        borderRight: isLastCol ? "none" : "1px solid rgba(255,255,255,0.07)",
-        borderBottom: isLastRow ? "none" : "1px solid rgba(255,255,255,0.07)",
+        padding: "clamp(28px, 4vw, 48px) clamp(20px, 3vw, 40px)",
         background: hovered ? "rgba(22,22,22,0.9)" : "rgba(12,12,12,0.82)",
         backdropFilter: "blur(12px)",
         overflow: "visible",
@@ -273,8 +269,6 @@ export default function StartSection() {
             key={service.title}
             service={service}
             index={i}
-            isLastRow={i >= 3}
-            isLastCol={(i + 1) % 3 === 0}
           />
         ))}
       </div>

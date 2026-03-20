@@ -47,10 +47,10 @@ function HeroButton() {
 export default function Hero() {
   return (
     <section
-      className="relative"
-      style={{ height: "1000px", background: "#000", overflow: "hidden" }}
+      className="relative flex flex-col"
+      style={{ minHeight: "100svh", background: "#000", overflow: "hidden" }}
     >
-      {/* Background video */}
+      {/* Background video — full cover */}
       <video
         src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260307_083826_e938b29f-a43a-41ec-a153-3d4730578ab8.mp4"
         poster="/images/hero_bg.png"
@@ -58,31 +58,30 @@ export default function Hero() {
         loop
         muted
         playsInline
-        className="absolute w-full h-auto object-contain z-0"
-        style={{ top: "20%" }}
+        className="absolute inset-0 w-full h-full object-cover z-0"
       />
 
-      {/* Light darkening overlay */}
-      <div className="absolute inset-0 z-0" style={{ background: "rgba(0,0,0,0.05)" }} />
+      {/* Dark overlay — stronger on mobile */}
+      <div className="absolute inset-0 z-1 pointer-events-none" style={{ background: "rgba(0,0,0,0.55)" }} />
 
-      {/* Bottom gradient fade */}
+      {/* Bottom gradient */}
       <div
         className="absolute bottom-0 left-0 right-0 z-1 pointer-events-none"
-        style={{
-          height: "300px",
-          background: "linear-gradient(to bottom, transparent, black)",
-        }}
+        style={{ height: "40%", background: "linear-gradient(to bottom, transparent, black)" }}
       />
 
       {/* Content */}
       <div
-        className="relative z-10 flex flex-col items-center text-center"
-        style={{ paddingTop: "150px", paddingLeft: "24px", paddingRight: "24px" }}
+        className="relative z-10 flex flex-col items-center text-center section-px flex-1 justify-center"
+        style={{ paddingTop: "100px", paddingBottom: "80px" }}
       >
         {/* Badge */}
-        <div
+        <motion.div
           className="liquid-glass rounded-full inline-flex items-center"
-          style={{ padding: "6px 14px", gap: "8px", marginBottom: "32px" }}
+          style={{ padding: "6px 14px", marginBottom: "clamp(20px, 4vw, 32px)" }}
+          initial={{ opacity: 0, y: -12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
         >
           <span
             style={{
@@ -94,22 +93,22 @@ export default function Hero() {
           >
             A creative studio for the modern web.
           </span>
-        </div>
+        </motion.div>
 
         {/* Heading */}
         <h1
           style={{
             fontFamily: "'Instrument Serif', serif",
             fontStyle: "italic",
-            fontSize: "clamp(3.5rem, 8vw, 5.5rem)",
+            fontSize: "clamp(2.6rem, 9vw, 5.5rem)",
             color: "#fff",
-            lineHeight: 0.85,
-            letterSpacing: "-4px",
-            marginBottom: "24px",
+            lineHeight: 0.9,
+            letterSpacing: "-0.03em",
+            marginBottom: "clamp(16px, 3vw, 24px)",
             maxWidth: "56rem",
           }}
         >
-          <BlurText text="The Website Your Brand Deserves" delay={100} />
+          <BlurText text="Craft That Commands Attention" delay={100} />
         </h1>
 
         {/* Subtext */}
@@ -117,11 +116,11 @@ export default function Hero() {
           style={{
             fontFamily: "'Barlow', sans-serif",
             fontWeight: 300,
-            color: "rgba(255,255,255,0.6)",
-            fontSize: "14px",
-            maxWidth: "28rem",
+            color: "rgba(255,255,255,0.65)",
+            fontSize: "clamp(13px, 2vw, 15px)",
+            maxWidth: "26rem",
             lineHeight: 1.7,
-            marginBottom: "40px",
+            marginBottom: "clamp(28px, 5vw, 40px)",
           }}
           initial={{ opacity: 0, filter: "blur(10px)" }}
           animate={{ opacity: 1, filter: "blur(0px)" }}
@@ -132,7 +131,7 @@ export default function Hero() {
 
         {/* CTA buttons */}
         <motion.div
-          className="flex items-center"
+          className="flex flex-wrap items-center justify-center"
           style={{ gap: "12px" }}
           initial={{ opacity: 0, filter: "blur(10px)" }}
           animate={{ opacity: 1, filter: "blur(0px)" }}

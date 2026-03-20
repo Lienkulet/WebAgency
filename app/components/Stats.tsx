@@ -40,7 +40,7 @@ export default function Stats() {
       >
         <div
           className="liquid-glass w-full"
-          style={{ borderRadius: "24px", padding: "64px", maxWidth: "64rem" }}
+          style={{ borderRadius: "24px", padding: "clamp(28px, 6vw, 64px)", maxWidth: "64rem" }}
         >
           <div className="grid grid-cols-2 lg:grid-cols-4 text-center" style={{ gap: "32px" }}>
             {stats.map((stat, i) => (
