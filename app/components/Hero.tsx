@@ -108,7 +108,7 @@ export default function Hero() {
             maxWidth: "56rem",
           }}
         >
-          <BlurText text="Craft That Commands Attention" delay={100} />
+          <BlurText text="The Website Your Brand Deserves" delay={100} />
         </h1>
 
         {/* Subtext */}
