@@ -1,4 +1,8 @@
+"use client";
+import { useT } from "@/context/LanguageContext";
+
 export default function Partners() {
+  const { t } = useT();
   const partners = [''];
 
   return (
@@ -18,7 +22,7 @@ export default function Partners() {
             fontWeight: 500,
           }}
         >
-          Trusted by the teams behind
+          {t.partners.trustedBy}
         </span>
       </div>
 

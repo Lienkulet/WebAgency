@@ -6,8 +6,11 @@ import HlsVideo from "@/components/ui/HlsVideo";
 import FillButton from "@/components/ui/FillButton";
 import ServiceCard from "@/components/cards/ServiceCard";
 import { services } from "@/data/services";
+import { useT } from "@/context/LanguageContext";
 
 export default function StartSection() {
+  const { t } = useT();
+
   return (
     <section
       className="relative w-full section-px"
@@ -38,7 +41,7 @@ export default function StartSection() {
           transition={{ duration: 0.5 }}
         >
           <span style={{ fontFamily: "'Barlow', sans-serif", color: "#fff", fontSize: "12px", fontWeight: 500 }}>
-            How It Works
+            {t.services.badge}
           </span>
         </motion.div>
 
@@ -58,7 +61,7 @@ export default function StartSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.55, delay: 0.08 }}
         >
-          How we work.
+          {t.services.heading}
         </motion.h2>
 
         <motion.p
@@ -76,7 +79,7 @@ export default function StartSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.55, delay: 0.16 }}
         >
-          Share your vision. We handle the rest — strategy, design, development, and launch. From brief to live in days, not quarters.
+          {t.services.subtext}
         </motion.p>
 
         <motion.a
@@ -88,7 +91,7 @@ export default function StartSection() {
           transition={{ duration: 0.55, delay: 0.24 }}
         >
           <FillButton style={{ fontFamily: "'Barlow', sans-serif", fontSize: "14px", fontWeight: 500, padding: "12px 24px", border: "1px solid rgba(255,255,255,0.3)", background: "transparent" }}>
-            Get Started
+            {t.services.getStarted}
             <ArrowUpRight size={16} />
           </FillButton>
         </motion.a>
@@ -100,9 +103,10 @@ export default function StartSection() {
       >
         {services.map((service, i) => (
           <ServiceCard
-            key={service.title}
-            service={service}
+            key={i}
+            service={{ ...service, ...t.services.items[i] }}
             index={i}
+            learnMore={t.services.learnMore}
           />
         ))}
       </div>

@@ -7,28 +7,21 @@ import Image from "next/image";
 import FillButton from "@/components/ui/FillButton";
 import HamburgerIcon from "../icons/HamburgerIcon";
 import MobileMenu from "./MobileMenu";
+import { useT } from "@/context/LanguageContext";
+import LanguageSwitcher from "./LanguageSwitcher";
 
-const navLinks = [{
-  title: "Home",
-  url: "/"
-}, {
-  title: "Services",
-  url: "#services"
-}, {
-  title: "Work",
-  url: "#work"
-}, {
-  title: "Testimonials",
-  url: "#testimonials"
-}
-//  {
-//   title: "Contact",
-//   url: "/#contact"
-// }
-];
+const navUrls = ["/", "#services", "#work", "#testimonials"];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const { t } = useT();
+
+  const navLinks = [
+    { title: t.nav.home, url: navUrls[0] },
+    { title: t.nav.services, url: navUrls[1] },
+    { title: t.nav.work, url: navUrls[2] },
+    { title: t.nav.testimonials, url: navUrls[3] },
+  ];
 
   return (
     <>
@@ -66,7 +59,7 @@ export default function Navbar() {
           <div className="liquid-glass rounded-full flex items-center" style={{ padding: "8px" }}>
             {navLinks.map((link) => (
               <motion.a
-                key={link.title}
+                key={link.url}
                 href={link.url}
                 className="text-sm font-light text-white/70 rounded-full"
                 style={{ fontFamily: "'Barlow', sans-serif", padding: "6px 16px" }}
@@ -76,13 +69,14 @@ export default function Navbar() {
                 {link.title}
               </motion.a>
             ))}
+            <LanguageSwitcher />
             <FillButton
               reverse
               fillColor="#fff"
               href="#contact"
               style={{ fontFamily: "'Barlow', sans-serif", fontSize: "14px", fontWeight: 500, padding: "8px 18px", background: "transparent" }}
             >
-              Book a Call
+              {t.nav.bookCall}
               <ArrowUpRight size={14} />
             </FillButton>
           </div>

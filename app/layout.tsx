@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import CTAFooter from "@/components/layout/CTAFooter";
+import { LanguageProvider } from "@/context/LanguageContext";
 
 export const metadata: Metadata = {
   title: "Liedko Studio — Web Design & Development Agency",
@@ -24,11 +25,13 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full antialiased">
       <body className="min-h-full flex flex-col bg-black text-white">
-        <Navbar />
-        <main style={{ background: "#000" }}>
-          {children}
-        </main>
-        <CTAFooter />
+        <LanguageProvider>
+          <Navbar />
+          <main style={{ background: "#000" }}>
+            {children}
+          </main>
+          <CTAFooter />
+        </LanguageProvider>
       </body>
     </html>
   );

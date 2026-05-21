@@ -2,15 +2,12 @@
 
 import { motion } from "motion/react";
 import HlsVideo from "@/components/ui/HlsVideo";
-
-const stats = [
-  { value: "200+",   label: "Sites launched" },
-  { value: "98%",    label: "Client satisfaction" },
-  { value: "3.2x",   label: "More conversions" },
-  { value: "5 days", label: "Average delivery" },
-];
+import { useT } from "@/context/LanguageContext";
 
 export default function Stats() {
+  const { t } = useT();
+  const stats = t.stats.items;
+
   return (
     <section
       className="relative w-full section-px"

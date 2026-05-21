@@ -6,18 +6,18 @@ export interface Testimonial {
 
 export const testimonials: Testimonial[] = [
     {
-        name: "Sarah Chen",
-        role: "CEO, Luminary",
-        quote: "A complete rebuild in under two weeks. The design was sharper than anything we'd briefed an agency on before — and it went live before our competitor even responded to their RFP.",
+        name: "Nikita Ceban",
+        role: "Owner, CebanBarber",
+        quote: "The site went live in days and immediately started bringing in new bookings. Clients tell me it looks exactly like the experience in the shop — clean, sharp, professional.",
     },
     {
-        name: "Marcus Webb",
-        role: "Head of Growth, Arcline",
-        quote: "Conversions up 4x in the first month. We'd worked with three agencies before and never seen results like this. The team genuinely understood what we were trying to achieve.",
+        name: "Daniel Dialog",
+        role: "Director, Dialog Imobil",
+        quote: "We needed a site that could handle hundreds of listings and still feel premium. They delivered exactly that — and our leads from organic search doubled within the first two months.",
     },
     {
-        name: "Elena Voss",
-        role: "Brand Director, Helix",
-        quote: "They understood our brand at a level most agencies never reach, even after months of briefings. The output was extraordinary — like having a senior creative director who actually listens.",
+        name: "Ștefan Miscu",
+        role: "Founder, Comoara Stupului",
+        quote: "I had a vision for how I wanted the brand to feel and they brought it to life better than I imagined. The website now tells our story in a way that resonates with every customer.",
     },
 ];

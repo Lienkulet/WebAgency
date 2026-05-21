@@ -3,8 +3,11 @@
 import { motion } from "motion/react";
 import TestimonialCard from "../cards/TestimonialCard";
 import { testimonials } from "@/data/testimonials";
+import { useT } from "@/context/LanguageContext";
 
 export default function Testimonials() {
+  const { t } = useT();
+
   return (
     <section
       id="testimonials"
@@ -23,7 +26,7 @@ export default function Testimonials() {
           style={{ padding: "4px 14px", marginBottom: "16px" }}
         >
           <span style={{ fontFamily: "'Barlow', sans-serif", color: "#fff", fontSize: "12px", fontWeight: 500 }}>
-            What They Say
+            {t.testimonials.badge}
           </span>
         </div>
         <h2
@@ -36,13 +39,21 @@ export default function Testimonials() {
             lineHeight: 0.9,
           }}
         >
-          Don&apos;t take our word for it.
+          {t.testimonials.heading}
         </h2>
       </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-3" style={{ gap: "24px" }}>
         {testimonials.map((testimonial, index) => (
-          <TestimonialCard key={testimonial.name} testimonial={testimonial} index={index} />
+          <TestimonialCard
+            key={testimonial.name}
+            testimonial={{
+              ...testimonial,
+              role: t.testimonials.items[index]?.role ?? testimonial.role,
+              quote: t.testimonials.items[index]?.quote ?? testimonial.quote,
+            }}
+            index={index}
+          />
         ))}
       </div>
     </section>

@@ -20,13 +20,17 @@ export default function BlurText({
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
+    setVisibleWords([]);
+    const timers: ReturnType<typeof setTimeout>[] = [];
+
+    observerRef.current?.disconnect();
     observerRef.current = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
           words.forEach((_, i) => {
-            timerRef.current = setTimeout(() => {
+            timers.push(setTimeout(() => {
               setVisibleWords((prev) => [...prev, i]);
-            }, i * delay);
+            }, i * delay));
           });
           observerRef.current?.disconnect();
         }
@@ -40,10 +44,9 @@ export default function BlurText({
 
     return () => {
       observerRef.current?.disconnect();
-      if (timerRef.current) clearTimeout(timerRef.current);
+      timers.forEach(clearTimeout);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [text, delay]);
 
   return (
     <span ref={ref} className={`inline ${className}`} aria-label={text}>

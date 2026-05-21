@@ -70,9 +70,10 @@ interface ProjectCardProps {
   project: Project;
   index: number;
   initialCount: number;
+  viewSiteLabel?: string;
 }
 
-export default function ProjectCard({ project, index, initialCount }: ProjectCardProps) {
+export default function ProjectCard({ project, index, initialCount, viewSiteLabel }: ProjectCardProps) {
   const dragStartX = useRef(0);
 
   return (
@@ -151,7 +152,7 @@ export default function ProjectCard({ project, index, initialCount }: ProjectCar
                 whiteSpace: "nowrap",
               }}
             >
-              View Site
+              {viewSiteLabel ?? "View Site"}
               <ArrowUpRight size={13} />
             </div>
           )}

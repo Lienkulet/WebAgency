@@ -2,7 +2,7 @@ import { ArrowUpRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import React, { useState } from 'react'
 
-const HeroButton = () => {
+const HeroButton = ({ label }: { label?: string }) => {
     const [hovered, setHovered] = useState(false);
 
     return (
@@ -22,6 +22,7 @@ const HeroButton = () => {
                 position: "relative",
                 overflow: "hidden",
                 transition: "color 0.25s ease",
+                textDecoration: "none",
             }}
             onHoverStart={() => setHovered(true)}
             onHoverEnd={() => setHovered(false)}
@@ -35,7 +36,7 @@ const HeroButton = () => {
                 transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
             />
             <span className="relative flex items-center" style={{ gap: "8px" }}>
-                Get Started
+                {label ?? "Get Started"}
                 <ArrowUpRight size={16} />
             </span>
         </motion.a>

@@ -5,14 +5,16 @@ import { MessageCircle } from "lucide-react";
 import FillButton from "@/components/ui/FillButton";
 import BlurText from "@/components/ui/BlurText";
 import HeroButton from "@/components/ui/HeroButton";
+import { useT } from "@/context/LanguageContext";
 
 export default function Hero() {
+  const { t } = useT();
+
   return (
     <section
       className="relative flex flex-col"
       style={{ minHeight: "100svh", background: "#000", overflow: "hidden" }}
     >
-      {/* Background video — full cover */}
       <video
         src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260307_083826_e938b29f-a43a-41ec-a153-3d4730578ab8.mp4"
         poster="/images/hero_bg.png"
@@ -22,22 +24,16 @@ export default function Hero() {
         playsInline
         className="absolute inset-0 w-full h-full object-cover z-0"
       />
-
-      {/* Dark overlay — stronger on mobile */}
       <div className="absolute inset-0 z-1 pointer-events-none" style={{ background: "rgba(0,0,0,0.55)" }} />
-
-      {/* Bottom gradient */}
       <div
         className="absolute bottom-0 left-0 right-0 z-1 pointer-events-none"
         style={{ height: "40%", background: "linear-gradient(to bottom, transparent, black)" }}
       />
 
-      {/* Content */}
       <div
         className="relative z-10 flex flex-col items-center text-center section-px flex-1 justify-center"
         style={{ paddingTop: "100px", paddingBottom: "80px" }}
       >
-        {/* Badge */}
         <motion.div
           className="liquid-glass rounded-full inline-flex items-center"
           style={{ padding: "6px 14px", marginBottom: "clamp(20px, 4vw, 32px)" }}
@@ -45,19 +41,11 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <span
-            style={{
-              fontFamily: "'Barlow', sans-serif",
-              color: "rgba(255,255,255,0.8)",
-              fontSize: "12px",
-              fontWeight: 500,
-            }}
-          >
-            A creative studio for the modern web.
+          <span style={{ fontFamily: "'Barlow', sans-serif", color: "rgba(255,255,255,0.8)", fontSize: "12px", fontWeight: 500 }}>
+            {t.hero.badge}
           </span>
         </motion.div>
 
-        {/* Heading */}
         <h1
           style={{
             fontFamily: "'Instrument Serif', serif",
@@ -70,10 +58,9 @@ export default function Hero() {
             maxWidth: "56rem",
           }}
         >
-          <BlurText text="The Website Your Brand Deserves" delay={100} />
+          <BlurText text={t.hero.heading} delay={100} />
         </h1>
 
-        {/* Subtext */}
         <motion.p
           style={{
             fontFamily: "'Barlow', sans-serif",
@@ -88,10 +75,9 @@ export default function Hero() {
           animate={{ opacity: 1, filter: "blur(0px)" }}
           transition={{ duration: 0.6, delay: 0.8 }}
         >
-          We design and build websites that are fast, intentional, and impossible to ignore. Strategy, design, and code — all under one roof.
+          {t.hero.subtext}
         </motion.p>
 
-        {/* CTA buttons */}
         <motion.div
           className="flex flex-wrap items-center justify-center"
           style={{ gap: "12px" }}
@@ -99,7 +85,7 @@ export default function Hero() {
           animate={{ opacity: 1, filter: "blur(0px)" }}
           transition={{ duration: 0.6, delay: 1.1 }}
         >
-          <HeroButton />
+          <HeroButton label={t.hero.getStarted} />
           <FillButton
             reverse
             fillColor="#fff"
@@ -107,7 +93,7 @@ export default function Hero() {
             style={{ fontFamily: "'Barlow', sans-serif", fontSize: "14px", fontWeight: 500, padding: "12px 24px", background: "transparent" }}
           >
             <MessageCircle size={14} />
-            Text Now
+            {t.hero.textNow}
           </FillButton>
         </motion.div>
       </div>

@@ -5,9 +5,10 @@ import { motion } from "motion/react";
 interface ShowMoreButtonProps {
   remaining: number;
   onClick: () => void;
+  label?: string;
 }
 
-export default function ShowMoreButton({ remaining, onClick }: ShowMoreButtonProps) {
+export default function ShowMoreButton({ remaining, onClick, label }: ShowMoreButtonProps) {
   return (
     <motion.div
       className="flex justify-center"
@@ -36,7 +37,7 @@ export default function ShowMoreButton({ remaining, onClick }: ShowMoreButtonPro
         whileTap={{ scale: 0.97 }}
         transition={{ duration: 0.2 }}
       >
-        View all projects
+        {label ?? "View all projects"}
         <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "12px" }}>+{remaining}</span>
       </motion.button>
     </motion.div>

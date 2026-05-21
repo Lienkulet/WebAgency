@@ -3,9 +3,10 @@ import { ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useState } from 'react'
 
-const ServiceCard = ({ service, index }: {
+const ServiceCard = ({ service, index, learnMore }: {
   service: Service;
   index: number;
+  learnMore?: string;
 }) => {
   const [hovered, setHovered] = useState(false);
   const Icon = service.icon;
@@ -128,7 +129,7 @@ const ServiceCard = ({ service, index }: {
         animate={{ x: hovered ? 4 : 0 }}
         transition={{ duration: 0.25 }}
       >
-        Learn More
+        {learnMore ?? "Learn More"}
         <motion.span
           animate={{ x: hovered ? 3 : 0, opacity: hovered ? 1 : 0.6 }}
           transition={{ duration: 0.25 }}

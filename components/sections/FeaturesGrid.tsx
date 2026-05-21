@@ -5,10 +5,12 @@ import { motion, AnimatePresence } from "motion/react";
 import { PROJECTS } from "@/data/projects";
 import ProjectCard from "@/components/cards/ProjectCard";
 import ShowMoreButton from "@/components/ui/ShowMoreButton";
+import { useT } from "@/context/LanguageContext";
 
 const INITIAL_COUNT = 6;
 
 export default function FeaturesGrid() {
+  const { t } = useT();
   const [showAll, setShowAll] = useState(false);
   const visible = showAll ? PROJECTS : PROJECTS.slice(0, INITIAL_COUNT);
 
@@ -27,7 +29,7 @@ export default function FeaturesGrid() {
           style={{ padding: "4px 14px", marginBottom: "16px" }}
         >
           <span style={{ fontFamily: "'Barlow', sans-serif", color: "#fff", fontSize: "12px", fontWeight: 500 }}>
-            Our Work
+            {t.work.badge}
           </span>
         </div>
         <h2
@@ -40,7 +42,7 @@ export default function FeaturesGrid() {
             lineHeight: 0.9,
           }}
         >
-          Projects we&apos;re proud of.
+          {t.work.heading}
         </h2>
       </motion.div>
 
@@ -54,7 +56,13 @@ export default function FeaturesGrid() {
       >
         <AnimatePresence>
           {visible.map((project, i) => (
-            <ProjectCard key={project.title} project={project} index={i} initialCount={INITIAL_COUNT} />
+            <ProjectCard
+              key={project.title}
+              project={{ ...project, description: t.work.projects[i]?.description ?? project.description }}
+              index={i}
+              initialCount={INITIAL_COUNT}
+              viewSiteLabel={t.work.viewSite}
+            />
           ))}
         </AnimatePresence>
       </div>
@@ -62,6 +70,7 @@ export default function FeaturesGrid() {
       {!showAll && PROJECTS.length > INITIAL_COUNT && (
         <ShowMoreButton
           remaining={PROJECTS.length - INITIAL_COUNT}
+          label={t.work.viewAll}
           onClick={() => setShowAll(true)}
         />
       )}
