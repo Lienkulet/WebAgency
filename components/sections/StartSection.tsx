@@ -79,7 +79,9 @@ export default function StartSection() {
           Share your vision. We handle the rest — strategy, design, development, and launch. From brief to live in days, not quarters.
         </motion.p>
 
-        <motion.div
+        <motion.a
+          href="#contact"
+          style={{ textDecoration: "none" }}
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -89,7 +91,7 @@ export default function StartSection() {
             Get Started
             <ArrowUpRight size={16} />
           </FillButton>
-        </motion.div>
+        </motion.a>
       </div>
 
       <div

@@ -6,7 +6,8 @@ const HeroButton = () => {
     const [hovered, setHovered] = useState(false);
 
     return (
-        <motion.button
+        <motion.a
+            href="#contact"
             className="flex items-center rounded-full"
             style={{
                 fontFamily: "'Barlow', sans-serif",
@@ -37,7 +38,7 @@ const HeroButton = () => {
                 Get Started
                 <ArrowUpRight size={16} />
             </span>
-        </motion.button>
+        </motion.a>
     )
 }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 
 interface FillButtonProps {
@@ -27,9 +27,9 @@ export default function FillButton({
   reverse = false,
 }: FillButtonProps) {
   const [hovered, setHovered] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
-  // reverse: fill sweeps out → text goes white, border appears
-  // normal:  fill sweeps in  → text goes to activeColor
   const textColor = reverse
     ? hovered ? "#fff" : "#000"
     : hovered ? activeColor : "#fff";
@@ -41,6 +41,23 @@ export default function FillButton({
   const border = reverse
     ? hovered ? "1px solid rgba(255,255,255,0.35)" : "1px solid transparent"
     : style.border ?? "none";
+
+  const fill = (
+    // Suppress hydration mismatch on the animated fill span — safe because
+    // the span is purely decorative and re-renders immediately after mount.
+    <span
+      suppressHydrationWarning
+      className="absolute inset-0 pointer-events-none"
+      style={{
+        background: fillColor,
+        transformOrigin: reverse ? "right center" : "left center",
+        transform: mounted
+          ? `scaleX(${scaleX})`
+          : `scaleX(${reverse ? 1 : 0})`,
+        transition: mounted ? "transform 0.35s cubic-bezier(0.25,0.1,0.25,1)" : "none",
+      }}
+    />
+  );
 
   const sharedProps = {
     onClick,
@@ -60,32 +77,18 @@ export default function FillButton({
     whileTap: { scale: 0.96 },
   };
 
+  const inner = (
+    <>
+      {fill}
+      <span className="relative flex items-center" style={{ gap: "8px" }}>
+        {children}
+      </span>
+    </>
+  );
+
   return href ? (
-    <motion.a href={href} {...sharedProps}>
-      <motion.span
-        className="absolute inset-0"
-        style={{ background: fillColor, transformOrigin: reverse ? "right center" : "left center" }}
-        initial={{ scaleX: reverse ? 1 : 0 }}
-        animate={{ scaleX }}
-        transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
-      />
-      <span className="relative flex items-center" style={{ gap: "8px" }}>
-        {children}
-      </span>
-    </motion.a>
+    <motion.a href={href} {...sharedProps}>{inner}</motion.a>
   ) : (
-    <motion.button type={type} {...sharedProps}>
-      <motion.span
-        className="absolute inset-0"
-        style={{ background: fillColor, transformOrigin: reverse ? "right center" : "left center" }}
-        initial={{ scaleX: reverse ? 1 : 0 }}
-        animate={{ scaleX }}
-        transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
-      />
-      <span className="relative flex items-center" style={{ gap: "8px" }}>
-        {children}
-      </span>
-    </motion.button>
+    <motion.button type={type} {...sharedProps}>{inner}</motion.button>
   );
 }
-

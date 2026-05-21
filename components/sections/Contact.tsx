@@ -7,13 +7,54 @@ import FillButton from "@/components/ui/FillButton";
 
 export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [errors, setErrors] = useState<{ name?: string; email?: string }>({});
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  function validate() {
+    const next: { name?: string; email?: string } = {};
+    if (!form.name.trim()) {
+      next.name = "Name is required.";
+    } else if (form.name.trim().length < 2) {
+      next.name = "Name must be at least 2 characters.";
+    } else if (/[^a-zA-ZÀ-ÿ\s'-]/.test(form.name)) {
+      next.name = "Name can only contain letters.";
+    }
+    if (!form.email.trim()) {
+      next.email = "Email is required.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      next.email = "Enter a valid email address.";
+    }
+    return next;
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+    if (errors[name as keyof typeof errors]) {
+      setErrors((prev) => ({ ...prev, [name]: undefined }));
+    }
+  }
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    const next = validate();
+    if (Object.keys(next).length > 0) {
+      setErrors(next);
+      return;
+    }
+    setStatus("loading");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error();
+      setStatus("success");
+      setForm({ name: "", email: "", message: "" });
+    } catch {
+      setStatus("error");
+    }
   }
 
   const inputStyle: React.CSSProperties = {
@@ -142,12 +183,20 @@ export default function Contact() {
               <input
                 name="name"
                 value={form.name}
-                onChange={handleChange}
+                onChange={(e) => {
+                  e.target.value = e.target.value.replace(/[^a-zA-ZÀ-ÿ\s'-]/g, "");
+                  handleChange(e);
+                }}
                 placeholder="Your name"
-                style={inputStyle}
-                onFocus={(e) => { e.target.style.borderColor = "rgba(255,255,255,0.3)"; e.target.style.background = "rgba(255,255,255,0.06)"; }}
-                onBlur={(e) => { e.target.style.borderColor = "rgba(255,255,255,0.1)"; e.target.style.background = "rgba(255,255,255,0.04)"; }}
+                style={{ ...inputStyle, borderColor: errors.name ? "rgba(255,100,100,0.5)" : undefined }}
+                onFocus={(e) => { e.target.style.borderColor = errors.name ? "rgba(255,100,100,0.5)" : "rgba(255,255,255,0.3)"; e.target.style.background = "rgba(255,255,255,0.06)"; }}
+                onBlur={(e) => { e.target.style.borderColor = errors.name ? "rgba(255,100,100,0.5)" : "rgba(255,255,255,0.1)"; e.target.style.background = "rgba(255,255,255,0.04)"; }}
               />
+              {errors.name && (
+                <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: "12px", color: "rgba(255,100,100,0.9)" }}>
+                  {errors.name}
+                </span>
+              )}
             </div>
             <div className="flex flex-col" style={{ gap: "8px" }}>
               <label style={{ fontFamily: "'Barlow', sans-serif", fontSize: "12px", fontWeight: 500, color: "rgba(255,255,255,0.5)" }}>
@@ -159,10 +208,15 @@ export default function Contact() {
                 value={form.email}
                 onChange={handleChange}
                 placeholder="your@email.com"
-                style={inputStyle}
-                onFocus={(e) => { e.target.style.borderColor = "rgba(255,255,255,0.3)"; e.target.style.background = "rgba(255,255,255,0.06)"; }}
-                onBlur={(e) => { e.target.style.borderColor = "rgba(255,255,255,0.1)"; e.target.style.background = "rgba(255,255,255,0.04)"; }}
+                style={{ ...inputStyle, borderColor: errors.email ? "rgba(255,100,100,0.5)" : undefined }}
+                onFocus={(e) => { e.target.style.borderColor = errors.email ? "rgba(255,100,100,0.5)" : "rgba(255,255,255,0.3)"; e.target.style.background = "rgba(255,255,255,0.06)"; }}
+                onBlur={(e) => { e.target.style.borderColor = errors.email ? "rgba(255,100,100,0.5)" : "rgba(255,255,255,0.1)"; e.target.style.background = "rgba(255,255,255,0.04)"; }}
               />
+              {errors.email && (
+                <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: "12px", color: "rgba(255,100,100,0.9)" }}>
+                  {errors.email}
+                </span>
+              )}
             </div>
           </div>
 
@@ -184,11 +238,22 @@ export default function Contact() {
 
           <FillButton
             type="submit"
-            style={{ fontFamily: "'Barlow', sans-serif", fontSize: "14px", fontWeight: 500, padding: "14px 28px", marginTop: "8px", border: "1px solid rgba(255,255,255,0.3)", background: "transparent", justifyContent: "center" }}
+            style={{ fontFamily: "'Barlow', sans-serif", fontSize: "14px", fontWeight: 500, padding: "14px 28px", marginTop: "8px", border: "1px solid rgba(255,255,255,0.3)", background: "transparent", justifyContent: "center", opacity: status === "loading" ? 0.6 : 1, pointerEvents: status === "loading" ? "none" : "auto" }}
           >
-            Send Message
-            <ArrowUpRight size={16} />
+            {status === "loading" ? "Sending…" : "Send Message"}
+            {status !== "loading" && <ArrowUpRight size={16} />}
           </FillButton>
+
+          {status === "success" && (
+            <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: "13px", color: "rgba(100,220,130,0.9)", marginTop: "4px" }}>
+              Message sent! We&apos;ll get back to you soon.
+            </p>
+          )}
+          {status === "error" && (
+            <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: "13px", color: "rgba(255,100,100,0.9)", marginTop: "4px" }}>
+              Something went wrong. Please try again.
+            </p>
+          )}
         </motion.form>
       </div>
     </section>

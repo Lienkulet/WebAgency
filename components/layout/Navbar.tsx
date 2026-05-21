@@ -13,17 +13,19 @@ const navLinks = [{
   url: "/"
 }, {
   title: "Services",
-  url: "/#services"
+  url: "#services"
 }, {
   title: "Work",
-  url: "/#work"
+  url: "#work"
 }, {
   title: "Testimonials",
-  url: "/#testimonials"
-}, {
-  title: "Contact",
-  url: "/#contact"
-}];
+  url: "#testimonials"
+}
+//  {
+//   title: "Contact",
+//   url: "/#contact"
+// }
+];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -77,7 +79,7 @@ export default function Navbar() {
             <FillButton
               reverse
               fillColor="#fff"
-              href="tel:+37378789732"
+              href="#contact"
               style={{ fontFamily: "'Barlow', sans-serif", fontSize: "14px", fontWeight: 500, padding: "8px 18px", background: "transparent" }}
             >
               Book a Call

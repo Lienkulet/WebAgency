@@ -57,11 +57,15 @@ export default function CTAFooter() {
         </p>
 
         <div className="flex items-center" style={{ gap: "12px" }}>
-          <FillButton style={{ fontFamily: "'Barlow', sans-serif", fontSize: "14px", fontWeight: 500, padding: "12px 24px", border: "1px solid rgba(255,255,255,0.3)", background: "transparent" }}>
+          <FillButton 
+          href="#contact"
+          style={{ fontFamily: "'Barlow', sans-serif", fontSize: "14px", fontWeight: 500, padding: "12px 24px", border: "1px solid rgba(255,255,255,0.3)", background: "transparent" }}>
             Book a Call
             <ArrowUpRight size={16} />
           </FillButton>
-          <FillButton reverse fillColor="#fff" style={{ fontFamily: "'Barlow', sans-serif", fontSize: "14px", fontWeight: 500, padding: "12px 24px", background: "transparent" }}>
+          <FillButton 
+          href="sms:+37378789732"
+          reverse fillColor="#fff" style={{ fontFamily: "'Barlow', sans-serif", fontSize: "14px", fontWeight: 500, padding: "12px 24px", background: "transparent" }}>
             <MessageCircle size={14} />
             Text Now
           </FillButton>
