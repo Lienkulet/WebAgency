@@ -1,18 +1,14 @@
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import Partners from "./components/Partners";
-import StartSection from "./components/StartSection";
-import FeaturesChess from "./components/FeaturesChess";
-import FeaturesGrid from "./components/FeaturesGrid";
-import Stats from "./components/Stats";
-import Testimonials from "./components/Testimonials";
-import CTAFooter from "./components/CTAFooter";
-import Contact from "./components/Contact";
+import Hero from "@/components/sections/Hero";
+import Partners from "@/components/sections/Partners";
+import StartSection from "@/components/sections/StartSection";
+import FeaturesGrid from "@/components/sections/FeaturesGrid";
+import Stats from "@/components/sections/Stats";
+import Testimonials from "@/components/sections/Testimonials";
+import Contact from "@/components/sections/Contact";
 
 export default function Home() {
   return (
-    <main style={{ background: "#000" }}>
-      <Navbar />
+    <>
       <Hero />
       <Partners />
       <StartSection />
@@ -20,7 +16,6 @@ export default function Home() {
       <Stats />
       <Testimonials />
       <Contact />
-      <CTAFooter />
-    </main>
+    </>
   );
 }
